@@ -9,4 +9,4 @@ class Event(db.Model):
 class Payment(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     amount = db.Column(db.Float)
-    event_id = db.Column(db.Integer, db.ForeignKey('even.id'))
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
