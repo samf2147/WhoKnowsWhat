@@ -1,0 +1,6 @@
+You can:
+    * log in
+    * create an item with a name
+    * Add participants to an event
+    * Add a payment to an event
+    * Show who owes what
