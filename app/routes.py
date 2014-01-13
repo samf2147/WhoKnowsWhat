@@ -1,8 +1,8 @@
 from flask import url_for, render_template, g, request, redirect, session
 from app import app, db, lm
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from models import User
-from forms import LoginForm, RegisterForm
+from models import User, Event, Payment
+from forms import LoginForm, RegisterForm, EventForm
 import db_utilities
 import hashlib
 import pdb
@@ -99,5 +99,40 @@ def logout():
 @login_required
 def events():
     '''View the user's events'''
-    return render_template('events.html', user = g.user)
+    form = EventForm()
+    return render_template('events.html', user = g.user, form=form)
+
+@app.route('/create-event', methods=['POST'])
+@login_required
+def create_event():
+    '''Create the event the user posted'''
+    form = EventForm(request.form)
+        
+    #only create the event if they entered in a name for it
+    if not form.validate_on_submit():
+        return render_template('events.html', user=g.user, form=form, 
+                             message='Please enter name for event')
+    
+    #user can't create two events with the same name
+    elif Event.query.filter(
+               Event.name == form.name.data and Event.creator == g.user.id
+               ).first():
+        return render_template('events.html', user=g.user, form=form,
+                             message='Event name already exists.')
+    else:
+        db_utilities.create_event(event_name = form.name.data, user_id = g.user.id)
+        return redirect(url_for('events'))
+
+@app.route('/payments/<event_id>', methods=['GET'])
+@login_required
+def payments(event_id):
+    '''Display payments for the given event'''
+    event = Event.query.filter(Event.id == event_id).first()
+    
+    #users can only view payments for events they created
+    if event.creator != g.user.id:
+        return redirect(url_for('events'))
+    else:
+        return render_template('payments.html', event = event)
+    
     

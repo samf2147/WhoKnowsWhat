@@ -13,7 +13,9 @@ Feature: confirming that the calculator works
         Then I should be logged in
     
     Scenario: check that I can view my events
-        When I load the login page
-        And I enter my login information
-        And I load the events page
+        When I load the events page
         Then I should see my events
+    
+    Scenario: check that I can view payments for an event
+        When I click on an event
+        I can see payments for that event

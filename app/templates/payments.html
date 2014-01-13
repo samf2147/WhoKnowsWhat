@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+<title>WhoOwesWhat - {{ event.name }} Payments</title>
+{% endblock %}
+
+{% block content %}
+
+<p>Payments:</p><br>
+<ul id="payments">
+{% for payment in event.payments %}
+<li>{{ payment.payer }} | {{ payment.amount }}</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

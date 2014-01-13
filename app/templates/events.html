@@ -6,12 +6,17 @@
 
 {% block content %}
 
+
+{% if message %}
+<p style="color:red">{{ message }}</p>
+{% endif %}
+
 {% if user.events %}
 
 Events:
 <ul id="event-list">
 {% for event in user.events %}
-<li>{{ event.name }}</li>
+<li><a href="{{ url_for('payments', event_id=event.id) }}">{{ event.name }}</a></li>
 {% endfor %}
 </ul>
 
@@ -20,4 +25,14 @@ Events:
 You don't have any events yet :-(
 
 {% endif %}
+<br>
+Create an event:
+<br>
+<form action="/create-event" method="POST" name="create_event">
+    {{ form.hidden_tag() }}
+    Event name: {{ form.name(size=40) }} <Br>
+    
+    <input type="submit" id="submit" value="Create Event">
+</form>
+
 {% endblock %}

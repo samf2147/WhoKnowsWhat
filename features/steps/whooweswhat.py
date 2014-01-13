@@ -33,9 +33,21 @@ def step_impl(context):
     assert br.find_element_by_id('login_status').text == \
                                           'Logged in as test_user'
 
+
+#events
 @then('I should see my events')
 def step_impl(context):
     br = context.browser
     event_list = br.find_element_by_id('event-list').text
     assert 'test_event' in event_list
+
+@when('I click on an event')
+def step_impl(context):
+    br = context.browser
+    br.find_element_by_id('test_event').click()
+
+@then('I can see payments for that event')
+def step_impl(context):
+    br = context.browser
+    assert '$10.00' in br.find_element_by_id('payments').text
 
