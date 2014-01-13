@@ -3,6 +3,7 @@ from app import app, db, lm
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from models import User
 from forms import LoginForm, RegisterForm
+import db_utilities
 import hashlib
 import pdb
 
@@ -35,9 +36,7 @@ def login():
     Handle login functions
     This function handles both the initial login page and the results
     '''
-    
-#     pdb.set_trace()
-    
+        
     #if the user is already logged, redirect them to the homepage
     if g.user is not None and g.user.is_authenticated() and \
                                      len(g.user.username) > 0:
@@ -48,11 +47,11 @@ def login():
         #if they've submitted it with valid credentials, try to log in the user
         #whether or not we can log them in, redirect them home
         if form.validate_on_submit():
-		    user = User.query.filter(User.username == form.username.data).first()
-		    if user is not None and user.hashed_password == \
-		                                        hash_password(form.password.data):
-		        login_user(user)
-		    return render_template('home.html', user = user)
+            user = User.query.filter(User.username == form.username.data).first()
+            hashed_password = hash_password(form.password.data)
+            if user is not None and user.hashed_password == hashed_password:
+                login_user(user)
+            return redirect(url_for('home'))
 		
 		#otherwise, show them the form
         else:
@@ -81,10 +80,11 @@ def register():
 	        return render_template('register.html', form=form, 
 	                                message='Username already taken.')
 	    else:
-	        user = User(username=attempted_name, 
-	                    hashed_password = hash_password(form.password.data))
-	        db.session.add(user)
-	        db.session.commit()
+	        user = db_utilities.create_user(form.username.data, form.password.data)
+# 	        user = User(username=attempted_name, 
+# 	                    hashed_password = hash_password(form.password.data))
+# 	        db.session.add(user)
+# 	        db.session.commit()
 	        login_user(user)
 	        return redirect(url_for('home'))
 		    

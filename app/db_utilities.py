@@ -1,5 +1,6 @@
 from app import app, db
 from hashlib import md5
+from models import User
 
 def create_user(username, password):
     '''create a user with the given username and plaintext password'''
@@ -13,3 +14,9 @@ def create_user(username, password):
     db.session.add(user)
     db.session.commit()
     
+    return user
+
+def remove_user(username):
+    user = User.query.filter(User.username == username).first()
+    db.session.delete(user)
+    db.commit()
