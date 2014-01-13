@@ -73,3 +73,9 @@ nosetests.xml
 # Sphinx documentation
 docs/_build/
 
+#emacs
+*~
+
+# database files
+*.db
+
