@@ -81,10 +81,6 @@ def register():
 	                                message='Username already taken.')
 	    else:
 	        user = db_utilities.create_user(form.username.data, form.password.data)
-# 	        user = User(username=attempted_name, 
-# 	                    hashed_password = hash_password(form.password.data))
-# 	        db.session.add(user)
-# 	        db.session.commit()
 	        login_user(user)
 	        return redirect(url_for('home'))
 		    
