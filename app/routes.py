@@ -2,7 +2,7 @@ from flask import url_for, render_template, g, request, redirect, session
 from app import app, db, lm
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from models import User
-from forms import LoginForm
+from forms import LoginForm, RegisterForm
 import hashlib
 import pdb
 
@@ -57,7 +57,36 @@ def login():
 		#otherwise, show them the form
         else:
             return render_template('login.html', form = form)
-		        
+
+@app.route('/register', methods=['GET','POST'])
+def register():
+    '''
+    Handle registering
+    Use get requests to handle registering page
+    Use post requests to handle creation of accounts
+    '''
+    form = RegisterForm()
+    
+    #if they haven't filled out the form, send them the form with a reminder
+    if not form.validate_on_submit() and request.method == 'POST':
+        return render_template('register.html', form=form, message='Please'
+	                                        ' enter username and password.')
+    elif not form.validate_on_submit():
+        return render_template('register.html', form=form, message=None)
+	
+    #don't let the user create a duplicate username
+    else:
+	    attempted_name = form.username.data
+	    if User.query.filter(User.username == attempted_name).first():
+	        return render_template('register.html', form=form, 
+	                                message='Username already taken.')
+	    else:
+	        user = User(username=attempted_name, 
+	                    hashed_password = hash_password(form.password.data))
+	        db.session.add(user)
+	        db.session.commit()
+	        login_user(user)
+	        return redirect(url_for('home'))
 		    
 @app.route('/logout', methods=['GET','POST'])
 def logout():
