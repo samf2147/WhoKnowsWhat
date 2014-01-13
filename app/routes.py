@@ -30,6 +30,8 @@ def home():
     user = g.user
     return render_template('home.html', user=user)
 
+#user account handling functions
+
 @app.route('/login', methods=['GET','POST'])
 def login():
     '''
@@ -43,7 +45,7 @@ def login():
         return redirect(url_for('home'))
     
     else:
-        form = LoginForm()
+        form = LoginForm(request.form)
         #if they've submitted it with valid credentials, try to log in the user
         #whether or not we can log them in, redirect them home
         if form.validate_on_submit():
@@ -89,3 +91,13 @@ def logout():
     '''Log user out'''
     logout_user()
     return redirect(url_for('home'))
+
+
+
+#event functions
+@app.route('/events', methods=['GET'])
+@login_required
+def events():
+    '''View the user's events'''
+    return render_template('events.html', user = g.user)
+    

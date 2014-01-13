@@ -11,3 +11,9 @@ Feature: confirming that the calculator works
         When I load the login page
         And I enter my login information
         Then I should be logged in
+    
+    Scenario: check that I can view my events
+        When I load the login page
+        And I enter my login information
+        And I load the events page
+        Then I should see my events

@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+<title>WhoOwesWhat - Events</title>
+{% endblock %}
+
+{% block content %}
+
+{% if user.events %}
+
+Events:
+<ul id="event-list">
+{% for event in user.events %}
+<li>{{ event.name }}</li>
+{% endfor %}
+</ul>
+
+{% else %}
+
+You don't have any events yet :-(
+
+{% endif %}
+{% endblock %}

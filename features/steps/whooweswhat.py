@@ -16,6 +16,10 @@ def step_impl(context):
 def step_impl(context):
     assert context.browser.title == 'WhoOwesWhat - Login'
 
+@when('I load the events page')
+def step_impl(context):
+    context.browser.get(BASE_URL + '/events')
+
 @when('I enter my login information')
 def step_impl(context):
     br = context.browser
@@ -29,15 +33,9 @@ def step_impl(context):
     assert br.find_element_by_id('login_status').text == \
                                           'Logged in as test_user'
 
-# @when('I create an account')
-# def step_impl(context):
-#     br = context.browser
-#     br.get(BASE_URL + '/login')
-#     br.find_element_by_name('new_username').send_keys('test_user')
-#     br.find_element_by_name('new_password').send_keys('test_password')
-#     br.find_element_by_id('submit').click()
-# 
-# @then('My account should be added to the database')
-# def step_impl(context):
-#     br = context.browser
-#     assert br.find_element_by_id('login_status').text == 'Logged in as test_user'
+@then('I should see my events')
+def step_impl(context):
+    br = context.browser
+    event_list = br.find_element_by_id('event-list').text
+    assert 'test_event' in event_list
+
