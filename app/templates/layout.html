@@ -6,6 +6,18 @@
 {% endblock %}
 </head>
 <body>
+<!-- nav bar -->
+<div class="logo">WhoOwesWhat</div>
+<div class="nav-links">
+<a href="{{ url_for('home') }}">Home</a>
+{% if g.user.is_authenticated() %}
+| <a href="{{ url_for('logout') }}">Logout</a>
+{% else %}
+| <a href="{{ url_for('login') }}">Log In</a>
+{% endif %}
+</div>
+
+
 {% block content %}
 {% endblock %}
 </body>

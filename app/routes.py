@@ -59,24 +59,8 @@ def login():
             return render_template('login.html', form = form)
 		        
 		    
-		    #check if the password they entered is correct
-
-# @app.route('/register', methods=['POST'])
-# def register():
-#     #don't register a new user if they're already logged in
-#     if g.user is not None and g.user.is_authenticated():
-#         return redirect(url_for('home')
-#     
-#     form = LoginForm()
-# 
-#     username = unicode(request.form['new_username'])
-#     hashed_pass = hash_password(request.form['new_password'])
-#     
-#     user = User(username=username, hashed_password=hashed_pass)
-#     
-#     db.session.add(user)
-#     db.session.commit()
-#     
-#     g.user = user
-#     
-#     return redirect(url_for('home'))
+@app.route('/logout', methods=['GET','POST'])
+def logout():
+    '''Log user out'''
+    logout_user()
+    return redirect(url_for('home'))
