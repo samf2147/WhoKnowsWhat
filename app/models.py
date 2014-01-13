@@ -3,7 +3,7 @@ from app import db
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(128), unique = True)
-    hashed_password = db.Column(db.String, unique = True)
+    hashed_password = db.Column(db.String(128), unique = True)
     
     #methods required by flask-login
     def is_authenticated(self):

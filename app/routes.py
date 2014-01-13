@@ -36,7 +36,7 @@ def login():
     This function handles both the initial login page and the results
     '''
     
-    pdb.set_trace()
+#     pdb.set_trace()
     
     #if the user is already logged, redirect them to the homepage
     if g.user is not None and g.user.is_authenticated() and \
@@ -48,15 +48,15 @@ def login():
         #if they've submitted it with valid credentials, try to log in the user
         #whether or not we can log them in, redirect them home
         if form.validate_on_submit():
-		    user = User.query.filter(User.username == form.username)
+		    user = User.query.filter(User.username == form.username.data).first()
 		    if user is not None and user.hashed_password == \
-		                                        hash_password(form.password):
+		                                        hash_password(form.password.data):
 		        login_user(user)
-		    return render_template('home.html')
+		    return render_template('home.html', user = user)
 		
 		#otherwise, show them the form
         else:
-            return render_template('login.html')
+            return render_template('login.html', form = form)
 		        
 		    
 		    #check if the password they entered is correct

@@ -9,14 +9,8 @@
 Log in:
 <form action="" method="post" name="login">
     {{ form.hidden_tag() }}
-    <div name="form_field">
-        <label for="username">Username:</label>
-        <input type="text" name="username" />
-    </div>
-    <div name="form_field">
-        <label for="password">Password:</label>
-        <input type="text" name="password" />
-    </div>
+    Username: {{ form.username(size=80) }}
+    Password: {{ form.password(size=80) }}
     <input type="submit" id="submit" value="Log in">
 </form>
 {% endblock %}
