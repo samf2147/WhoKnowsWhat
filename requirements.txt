@@ -1,6 +1,0 @@
-pip install flask
-pip install sqlalchemy
-pip install selenium
-pip install Flask-SQLAlchemy
-pip install Flask-Login
-pip install Flask-WTF

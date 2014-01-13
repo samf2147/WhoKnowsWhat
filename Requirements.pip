@@ -1,0 +1,6 @@
+flask
+sqlalchemy
+selenium
+Flask-SQLAlchemy
+Flask-Login
+Flask-WTF
