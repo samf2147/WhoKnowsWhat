@@ -6,4 +6,9 @@
 
 {% block content %}
 <p>Home page!</p>
+{% if user.username %}
+<div id="login_status">Logged in as {{ user.username }}</div>
+{% else %}
+<div id="login_status">Not logged in</div>
+{% endif %}
 {% endblock %}
