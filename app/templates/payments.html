@@ -7,10 +7,24 @@
 {% block content %}
 
 <p>Payments:</p><br>
+{% if event.payments %}
 <ul id="payments">
 {% for payment in event.payments %}
-<li>{{ payment.payer }} | {{ payment.amount }}</li>
+<li>{{ payment.payer }}: {{ '{0:0.2f}'.format(payment.amount) }}</li>
 {% endfor %}
 </ul>
+{% else %}
+<p>No payments :-(</p>
+{% endif %}
+
+<br>
+
+<p>Record a payment:</p>
+<form action="/make-payment/{{ event.id }}" method="POST" name="make-payment">
+{{ form.hidden_tag() }}
+Payer: {{ form.payer(size=60) }}
+Amount: {{ form.amount(size=30) }}
+<input type="submit" id="submit" value="Submit Payment">
+</form>
 
 {% endblock %}

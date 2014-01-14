@@ -49,5 +49,5 @@ def step_impl(context):
 @then('I can see payments for that event')
 def step_impl(context):
     br = context.browser
-    assert '$10.00' in br.find_element_by_id('payments').text
+    assert '120.00' in br.find_element_by_id('payments').text
 

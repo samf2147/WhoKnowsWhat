@@ -12,3 +12,7 @@ class RegisterForm(Form):
 
 class EventForm(Form):
     name = TextField('event_name', validators=[Required()])
+
+class PaymentForm(Form):
+    payer = TextField('payer', validators=[Required()])
+    amount = TextField('amount', validators = [Required()])

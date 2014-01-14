@@ -2,7 +2,7 @@ from flask import url_for, render_template, g, request, redirect, session
 from app import app, db, lm
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from models import User, Event, Payment
-from forms import LoginForm, RegisterForm, EventForm
+from forms import LoginForm, RegisterForm, EventForm, PaymentForm
 import db_utilities
 import hashlib
 import pdb
@@ -133,6 +133,27 @@ def payments(event_id):
     if event.creator != g.user.id:
         return redirect(url_for('events'))
     else:
-        return render_template('payments.html', event = event)
+        form = PaymentForm()
+        return render_template('payments.html', event = event, form=form)
     
+@app.route('/make-payment/<event_id>', methods=['POST'])
+@login_required
+def make_payment(event_id):
+    '''Make a payment on the given event'''
+
+    event = Event.query.filter(Event.id == event_id).first()
     
+    form = PaymentForm(request.form)
+    
+    #users can only view payments for events they created
+    if event.creator != g.user.id:
+        return redirect(url_for('events'))
+    elif not form.validate_on_submit():
+        return render_template('payments.html', event=event,
+                               message='Please enter payer and amount',
+                               form=form)
+    else:
+        db_utilities.create_payment(payer=form.payer.data, 
+                                    amount=form.amount.data,
+                                    event_id=event_id)
+        return redirect(url_for('payments',event_id = event_id))

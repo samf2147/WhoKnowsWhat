@@ -18,4 +18,4 @@ Feature: confirming that the calculator works
     
     Scenario: check that I can view payments for an event
         When I click on an event
-        I can see payments for that event
+        Then I can see payments for that event
