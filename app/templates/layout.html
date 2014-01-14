@@ -20,6 +20,14 @@
 </div>
 
 
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for flash_message in messages %}
+            <p style="color:red">{{ flash_message }}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
 {% block content %}
 {% endblock %}
 </body>

@@ -1,4 +1,4 @@
-from flask import url_for, render_template, g, request, redirect, session
+from flask import flash, url_for, render_template, g, request, redirect, session
 from app import app, db, lm
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from models import User, Event, Payment
@@ -6,6 +6,7 @@ from forms import LoginForm, RegisterForm, EventForm, PaymentForm
 import db_utilities
 import hashlib
 import pdb
+import payment_math
 
 def hash_password(password):
     '''Hash a password'''
@@ -95,12 +96,13 @@ def logout():
 
 
 #event functions
-@app.route('/events', methods=['GET'])
+@app.route('/events', methods=['GET'], defaults={'message':None})
 @login_required
-def events():
+def events(message):
     '''View the user's events'''
     form = EventForm()
-    return render_template('events.html', user = g.user, form=form)
+    return render_template('events.html', user = g.user, form=form,
+                             message=message)
 
 @app.route('/create-event', methods=['POST'])
 @login_required
@@ -123,6 +125,19 @@ def create_event():
         db_utilities.create_event(event_name = form.name.data, user_id = g.user.id)
         return redirect(url_for('events'))
 
+@app.route('/delete-event/<event_id>', methods=['GET'])
+@login_required
+def delete_event(event_id):
+    '''Delete the event the user requested'''
+    #only delete the event if the user owns it
+    if db_utilities.owns_event(g.user.id,event_id):
+        db_utilities.remove_event(event_id)
+    else:
+        flash('You do not have permission to delete that event.')
+    return redirect(url_for('events'))
+
+
+#payment functions
 @app.route('/payments/<event_id>', methods=['GET'])
 @login_required
 def payments(event_id):
@@ -134,7 +149,12 @@ def payments(event_id):
         return redirect(url_for('events'))
     else:
         form = PaymentForm()
-        return render_template('payments.html', event = event, form=form)
+        if len(event.payments) == 0:
+            payment_list = None
+        else:
+            payment_list = payment_math.payment_list(event)
+        return render_template('payments.html', event = event, form=form,
+                            payment_list = payment_list)
     
 @app.route('/make-payment/<event_id>', methods=['POST'])
 @login_required
@@ -157,3 +177,15 @@ def make_payment(event_id):
                                     amount=form.amount.data,
                                     event_id=event_id)
         return redirect(url_for('payments',event_id = event_id))
+
+@app.route('/delete-payment/<event_id>/<payment_id>', methods=['GET'])
+@login_required
+def delete_payment(event_id,payment_id):
+    '''Delete the payment with the given payment_id'''
+    #only delete the payment if the user owns the corresponding event
+    payment = Payment.query.filter(Payment.id == payment_id).first()
+    if payment and db_utilities.owns_payment(g.user.id, payment.id):
+        db_utilities.remove_payment(payment.id)
+    else:
+        flash('You do not have permission to delete that payment')
+    return redirect(url_for('payments',event_id=event_id))
