@@ -51,3 +51,47 @@ def step_impl(context):
     br = context.browser
     assert '120.00' in br.find_element_by_id('payments').text
 
+#adding and deleting events and payments
+@when('I add an event')
+def step_impl(context):
+    br = context.browser
+    br.find_element_by_name('name').send_keys('test_add_event')
+    br.find_element_by_id('submit').click()
+
+@then('I can see that event')
+def step_impl(context):
+    br = context.browser
+    assert 'test_add_event' in br.find_element_by_id('event-list').text
+
+@when('I delete an event')
+def step_impl(context):
+    br = context.browser
+    br.find_element_by_id('delete-test_add_event').click()
+
+@then('I cannot see that event')
+def step_impl(context):
+    br = context.browser
+    assert 'test_add_event' not in br.find_element_by_id('event-list').text
+
+@when('I add a payment')
+def step_impl(context):
+    br = context.browser
+    br.find_element_by_name('payer').send_keys('test_add_payer')
+    br.find_element_by_name('amount').send_keys('137.53')
+    br.find_element_by_id('submit').click()
+
+@then('I can see that payment')
+def step_impl(context):
+    br = context.browser
+    payments = br.find_element_by_id('payments')
+    assert 'test_add_payer' in payments and '137.53' in payments
+
+@when('I delete a payment')
+def step_impl(context):
+    br = context.browser
+    br.find_element_by_name('delete-payment-test_add_payer').click()
+
+@then('I cannot see that payment')
+def step_impl(context):
+    br = context.browser
+    assert 'test_add_payer' not in br.find_element_by_id('payments')

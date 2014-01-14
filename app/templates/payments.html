@@ -11,7 +11,8 @@
 <ul id="payments">
 {% for payment in event.payments %}
 <li>{{ payment.payer }}: {{ '{0:0.2f}'.format(payment.amount) }}
-| <a href="{{ url_for('delete_payment',event_id=event.id,payment_id=payment.id) }}"> delete </a>
+| <a href="{{ url_for('delete_payment',event_id=event.id,payment_id=payment.id) }}"
+name='delete-payment-{{ payment.payer }}'> delete </a>
 </li>
 {% endfor %}
 </ul>
