@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block content %}
-
-<p>Payments:</p>
+<h2>Payments:</h2>
 {% if event.payments %}
+<h4>
 <ul id="payments">
 {% for payment in event.payments %}
 <li>{{ payment.payer }}: {{ '{0:0.2f}'.format(payment.amount) }}
@@ -16,24 +16,26 @@ name='delete-payment-{{ payment.payer }}'> delete </a>
 </li>
 {% endfor %}
 </ul>
-<br>
-<p>Who Owes Who:</p>
+</h4>
+<h2>Who Owes Who:</h2>
+<h4>
 <ul id="whooweswho">
 {% for payment in payment_list %}
 <li>{{ payment[0] }} owes {{ payment[1] }} {{ payment[2] }} dollars</li>
 {% endfor %}
 </ul>
+</h4>
 {% else %}
-<p>No payments :-(</p>
+<h2>No payments :-(</h2>
 {% endif %}
 
 <br>
 
-<p>Record a payment:</p>
+<h3>Record a payment:</h3>
 <form action="/make-payment/{{ event.id }}" method="POST" name="make-payment">
 {{ form.hidden_tag() }}
-Payer: {{ form.payer(size=60) }}
-Amount: {{ form.amount(size=30) }}
+<h4>Payer: {{ form.payer(size=60) }}<br></h4>
+<h4>Amount: {{ form.amount(size=30) }}<br></h4>
 <input type="submit" id="submit" value="Submit Payment">
 </form>
 

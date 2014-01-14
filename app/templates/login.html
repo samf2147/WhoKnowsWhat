@@ -6,11 +6,11 @@
 
 {% block content %}
 
-Log in:
+<h2>Log in:</h2>
 <form action="" method="post" name="login">
     {{ form.hidden_tag() }}
-    Username: {{ form.username(size=80) }} <br>
-    Password: {{ form.password(size=80) }}
+    <h4>Username: {{ form.username(size=40) }} <br></h4>
+    <h4>Password: {{ form.password(size=40) }}</h4>
     <input type="submit" id="submit" value="Log in">
 </form>
 {% endblock %}

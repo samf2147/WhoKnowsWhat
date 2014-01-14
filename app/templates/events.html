@@ -14,26 +14,26 @@
 
 {% if user.events %}
 
-Events:
+<h2>Events:</h2>
 <ul id="event-list">
 {% for event in user.events %}
-<li><a href="{{ url_for('payments', event_id=event.id) }}" id="{{ event.name }}">{{ event.name }}</a>
-| <a href="{{ url_for('delete_event', event_id=event.id) }}" id="delete-{{ event.name }}">delete</a>
+<li><h4><a href="{{ url_for('payments', event_id=event.id) }}" id="{{ event.name }}">{{ event.name }}</a>
+| <a href="{{ url_for('delete_event', event_id=event.id) }}" id="delete-{{ event.name }}">delete</a></h4>
 </li>
 {% endfor %}
 </ul>
 
 {% else %}
 
-You don't have any events yet :-(
+<h4>You don't have any events yet :-(</h4>
 
 {% endif %}
 <br>
-Create an event:
+<h5>Create an event:</h5>
 <br>
 <form action="/create-event" method="POST" name="create_event">
     {{ form.hidden_tag() }}
-    Event name: {{ form.name(size=40) }} <Br>
+    <p>Event name: {{ form.name(size=40) }}<br></p>
     
     <input type="submit" id="submit" value="Create Event">
 </form>

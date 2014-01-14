@@ -10,11 +10,11 @@
 <p style="color:red;">{{ message }}</p>
 {% endif %}
 
-Register A New Account:
+<h2>Register A New Account:</h2>
 <form action="" method="post" name="register">
 {{ form.hidden_tag() }}
-Username: {{ form.username(size=80) }} <br>
-Password: {{ form.password(size=80) }}
+<h4>Username: {{ form.username(size=40) }} <br></h4>
+<h4>Password: {{ form.password(size=40) }}</h4>
 <input type="submit" id="submit" value="Register">
 </form>
 {% endblock %}

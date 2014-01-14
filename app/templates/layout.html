@@ -1,34 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-{% block title %}
-<title>WhoOwesWhat</title>
-{% endblock %}
+    {% block title %}
+    <title>WhoOwesWhat</title>
+    {% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}">
 </head>
 <body>
-<!-- nav bar -->
-<div class="logo">WhoOwesWhat</div>
-<div class="nav-links">
-<a href="{{ url_for('home') }}">Home</a>
-{% if g.user.is_authenticated() %}
-| <a href="{{ url_for('events') }}">View Events</a>
-| <a href="{{ url_for('logout') }}">Logout</a>
-{% else %}
-| <a href="{{ url_for('login') }}">Log In</a>
-| <a href="{{ url_for('register') }}">Register</a>
-{% endif %}
-</div>
+    <!-- nav bar -->
+    <div class="container">
+    <h1>WhoOwesWhat</h1>
+    </div>
+    <div class="navbar">
+        <div class="container">
+            <ul class="nav navbar-nav">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            {% if g.user.is_authenticated() %}
+            <li><a href="{{ url_for('events') }}">View Events</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+            <li><a href="{{ url_for('login') }}">Log In</a></li>
+            <li><a href="{{ url_for('register') }}">Register</a></li>
+            {% endif %}
+            </ul>
+        </div>
+    </div>
 
 
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for flash_message in messages %}
-            <p style="color:red">{{ flash_message }}</p>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for flash_message in messages %}
+                <p style="color:red">{{ flash_message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div id="content" class="container">
+    {% block content %}
+    {% endblock %}
+    </div>
 
-{% block content %}
-{% endblock %}
+    <script src="{{ url_for('static',filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
 </body>
 </html>

@@ -1,0 +1,11 @@
+body {
+    width: 100%;
+    background-image: url(../img/ricepaper_v3.png);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-attachment: fixed;
+}

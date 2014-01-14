@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block content %}
-<p>Home page!</p>
+<h2>Home page!</h2>
 {% if user.username %}
-<div id="login_status">Logged in as {{ user.username }}</div>
+<h4><div id="login_status">Logged in as {{ user.username }}</div></h4>
 {% else %}
-<div id="login_status">Not logged in</div>
+<h4><div id="login_status">Not logged in</div></h4>
 {% endif %}
 {% endblock %}
