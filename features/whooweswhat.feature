@@ -29,11 +29,11 @@ Feature: confirming that the calculator works
         When I delete an event
         Then I cannot see that event
     
-#     Scenario: check that I can add payments
-#         When I click on an event
-#         And I add a payment
-#         Then I can see that payment
-#     
-#     Scenario: check that I can delete payments
-#         When I delete a payment
-#         Then I cannot see that payment
+    Scenario: check that I can add payments
+        When I click on an event
+        And I add a payment
+        Then I can see that payment
+    
+    Scenario: check that I can delete payments
+        When I delete a payment
+        Then I cannot see that payment

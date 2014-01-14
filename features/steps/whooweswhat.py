@@ -83,7 +83,7 @@ def step_impl(context):
 @then('I can see that payment')
 def step_impl(context):
     br = context.browser
-    payments = br.find_element_by_id('payments')
+    payments = br.find_element_by_id('payments').text
     assert 'test_add_payer' in payments and '137.53' in payments
 
 @when('I delete a payment')
@@ -94,4 +94,4 @@ def step_impl(context):
 @then('I cannot see that payment')
 def step_impl(context):
     br = context.browser
-    assert 'test_add_payer' not in br.find_element_by_id('payments')
+    assert 'test_add_payer' not in br.find_element_by_id('payments').text
